@@ -23,6 +23,21 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       length: 2,
       vsync: this,
     );
+
+    controller!.addListener(tabListener);   // 컨트롤러 속성이 변경될 때마다 실행할 함수 등록
+  }
+
+  // 리스너로 사용할 함수
+  tabListener() {
+    setState(() {
+      
+    });
+  }
+
+  @override
+  void dispose() {
+    controller!.removeListener(tabListener);   // 리스너에 등록한 함수 등록 취소
+    super.dispose();
   }
 
   @override
@@ -67,6 +82,14 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   BottomNavigationBar renderBottomNavigation() {
     // 아래 탭 내비게이션을 구현하는 위젯
     return BottomNavigationBar(
+      // 현재 화면에 렌더링 되는 탭의 인덱스
+      currentIndex: controller!.index,
+      // 탭이 선택될 때마다 실행되는 함수
+      onTap: (int index) {
+        setState(() {
+          controller!.animateTo(index);
+        });
+      },
       items: [
         // 하단 탭 바의 각 버튼을 구현
         BottomNavigationBarItem(
