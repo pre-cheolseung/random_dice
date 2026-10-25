@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:random_dice/screen/home_screen.dart';
+
 class RootScreen extends StatefulWidget {
   const RootScreen({Key? key}) : super(key: key);   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
 
@@ -55,16 +57,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   List<Widget> renderChildren() {
     return [
       // 홈 스크린 탭
-      Container(
-        child: Center(
-          child: Text(
-            'Tab 1',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
+      HomeScreen(number: 1),
       // 설정 스크린 탭
       Container(
         child: Center(

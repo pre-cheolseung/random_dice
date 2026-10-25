@@ -1,12 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:random_dice/const/colors.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
+  final int number;
+
+  // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
+  const HomeScreen({
+    required this.number,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text('Home Screen'),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // 주사위 이미지
+        Center(
+          child: Image.asset('assets/img/$number.png'),
+        ),
+        SizedBox(height: 32.0),
+        Text(
+          'Lucky Number',
+          style: TextStyle(
+            color: secondaryColor,
+            fontSize: 20.0,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(height: 12.0),
+        Text(
+          number.toString(),   // 주사위 값에 해당되는 숫자
+          style: TextStyle(
+            color: primaryColor,
+            fontSize: 60.0,
+            fontWeight: FontWeight.w200,
+          ),
+        ),
+      ],
     );
   }
 }
