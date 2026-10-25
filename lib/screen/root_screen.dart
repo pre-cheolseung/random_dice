@@ -38,13 +38,37 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   }
 
   List<Widget> renderChildren() {
-    return [];
+    return [
+      // 홈 스크린 탭
+      Container(
+        child: Center(
+          child: Text(
+            'Tab 1',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+      // 설정 스크린 탭
+      Container(
+        child: Center(
+          child: Text(
+            'Tab 2',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ];
   }
 
   BottomNavigationBar renderBottomNavigation() {
     // 아래 탭 내비게이션을 구현하는 위젯
     return BottomNavigationBar(
       items: [
+        // 하단 탭 바의 각 버튼을 구현
         BottomNavigationBarItem(
           icon: Icon(
             Icons.edgesensor_high_outlined,
