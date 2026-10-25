@@ -42,6 +42,22 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   }
 
   BottomNavigationBar renderBottomNavigation() {
-    return BottomNavigationBar(items: []);   // 아래 탭 내비게이션을 구현하는 위젯
+    // 아래 탭 내비게이션을 구현하는 위젯
+    return BottomNavigationBar(
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.edgesensor_high_outlined,
+          ),
+          label: 'Dice',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.settings,
+          ),
+          label: 'Settings',
+        ),
+      ],
+    );
   }
 }
