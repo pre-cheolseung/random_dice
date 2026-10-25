@@ -5,6 +5,7 @@ import 'package:random_dice/screen/home_screen.dart';
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     )
   );
