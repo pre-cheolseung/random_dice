@@ -7,6 +7,7 @@ class HomeScreen extends StatelessWidget {
   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
   const HomeScreen({
     required this.number,
+    
     Key? key,
   }) : super(key: key);
 

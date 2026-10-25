@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:random_dice/screen/home_screen.dart';
+import 'package:random_dice/screen/settings_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({Key? key}) : super(key: key);   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
@@ -15,6 +16,7 @@ class RootScreen extends StatefulWidget {
 // TabController 초기화를 위한 vsync 기능을 사용하기 위해 TickerProviderStateMixin 사용
 class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   TabController? controller;   // 사용할 TabController 선언
+  double threshold = 2.7;   // 민감도 기본값 설정
 
   @override
   void initState() {
@@ -31,6 +33,9 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
 
   // 리스너로 사용할 함수
   tabListener() {
+    // 상태 변경 시 setState() 함수 실행
+    // 값 변경 시 build() 함수 재실행ß
+    // Clean -> setState() -> Dirty -> build() -> Clean
     setState(() {
       
     });
@@ -59,17 +64,21 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       // 홈 스크린 탭
       HomeScreen(number: 1),
       // 설정 스크린 탭
-      Container(
-        child: Center(
-          child: Text(
-            'Tab 2',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
+      SettingsScreen(
+        threshold: threshold,
+        onThresholdChange: onThresholdChange,
       ),
     ];
+  }
+
+  // 슬라이더 값 변경 시 실행 함수
+  // 슬라이더 위젯의 현재 값이 변경될 때마다 threshold 변수에 값을 저장
+  // setState() 함수를 실행해서 build() 함수를 재실행
+  void onThresholdChange(double val) {
+    // Clean -> setState() -> Dirty -> build() -> Clean
+    setState(() {
+      threshold = val;
+    });
   }
 
   BottomNavigationBar renderBottomNavigation() {
@@ -79,6 +88,9 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       currentIndex: controller!.index,
       // 탭이 선택될 때마다 실행되는 함수
       onTap: (int index) {
+        // 상태 변경 시 setState() 함수 실행
+        // 값 변경 시 build() 함수 재실행
+        // Clean -> setState() -> Dirty -> build() -> Clean
         setState(() {
           controller!.animateTo(index);
         });
