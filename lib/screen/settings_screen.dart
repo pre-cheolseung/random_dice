@@ -6,6 +6,7 @@ class SettingsScreen extends StatelessWidget {
   final double threshold;   // Slider의 현재 값
   final ValueChanged<double> onThresholdChange;   // Slider가 변경될 때마다 실행되는 함수
 
+  // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
   const SettingsScreen({
     Key? key,
 

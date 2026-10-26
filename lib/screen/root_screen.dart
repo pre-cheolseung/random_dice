@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:random_dice/screen/home_screen.dart';
 import 'package:random_dice/screen/settings_screen.dart';
+
+import 'package:shake/shake.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({Key? key}) : super(key: key);   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
@@ -17,6 +21,8 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   TabController? controller;   // 사용할 TabController 선언
   double threshold = 2.7;   // 민감도 기본값 설정
+  int number = 1;   // 주사위 숫자
+  ShakeDetector? shakeDetector;   // 사용할 ShakeDetector 선언
 
   @override
   void initState() {
@@ -27,8 +33,14 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       length: 2,
       vsync: this,
     );
-
     controller!.addListener(tabListener);   // 컨트롤러 속성이 변경될 때마다 실행할 함수 등록
+
+    // 흔들림 감지 즉시 시작
+    shakeDetector = ShakeDetector.autoStart(
+      onPhoneShake: onPhoneShake,   // 감지 후 실행할 함수
+      shakeSlopTimeMS: 100,   // 감지 주기
+      shakeThresholdGravity: threshold,   // 감지 민감도
+    );
   }
 
   // 리스너로 사용할 함수
@@ -36,14 +48,26 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     // 상태 변경 시 setState() 함수 실행
     // 값 변경 시 build() 함수 재실행ß
     // Clean -> setState() -> Dirty -> build() -> Clean
+    setState(() {});
+  }
+
+  // 흔들림 감지 후 실행할 함수
+  void onPhoneShake(ShakeEvent event) {
+    final random = new Random();
+
+    // 상태 변경 시 setState() 함수 실행
+    // 값 변경 시 build() 함수 재실행ß
+    // Clean -> setState() -> Dirty -> build() -> Clean
     setState(() {
-      
+      number = random.nextInt(5) + 1;
     });
   }
 
   @override
   void dispose() {
     controller!.removeListener(tabListener);   // 리스너에 등록한 함수 등록 취소
+    shakeDetector!.stopListening();   // 흔들림 감지 중지
+
     super.dispose();
   }
 
@@ -62,7 +86,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   List<Widget> renderChildren() {
     return [
       // 홈 스크린 탭
-      HomeScreen(number: 1),
+      HomeScreen(number: number),
       // 설정 스크린 탭
       SettingsScreen(
         threshold: threshold,
