@@ -21,7 +21,9 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   TabController? controller;   // 사용할 TabController 선언
   double threshold = 2.7;   // 민감도 기본값 설정
-  int number = 1;   // 주사위 숫자
+  int number1 = 1;   // 주사위 숫자
+  int number2 = 1;
+  int total = 2;
   ShakeDetector? shakeDetector;   // 사용할 ShakeDetector 선언
 
   @override
@@ -59,7 +61,9 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     // 값 변경 시 build() 함수 재실행ß
     // Clean -> setState() -> Dirty -> build() -> Clean
     setState(() {
-      number = random.nextInt(5) + 1;
+      number1 = random.nextInt(5) + 1;
+      number2 = random.nextInt(5) + 1;
+      total = number1 + number2;
     });
   }
 
@@ -86,7 +90,11 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   List<Widget> renderChildren() {
     return [
       // 홈 스크린 탭
-      HomeScreen(number: number),
+      HomeScreen(
+        number1: number1,
+        number2: number2,
+        total: total,
+      ),
       // 설정 스크린 탭
       SettingsScreen(
         threshold: threshold,
