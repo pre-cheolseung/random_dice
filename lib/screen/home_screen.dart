@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
         // Center(
         //   child: Image.asset('assets/img/$number.png'),
         // ),
-        SizedBox(height: 72.0),
+        SizedBox(height: 60.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           // 주사위 이미지 2개를 가로로 배치
@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 108.0),
+        SizedBox(height: 60.0),
         Text(
           'Total',
           style: TextStyle(
