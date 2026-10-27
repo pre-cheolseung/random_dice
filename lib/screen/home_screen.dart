@@ -5,12 +5,15 @@ class HomeScreen extends StatelessWidget {
   final int number1;
   final int number2;
   final int total;
+  final double scale;
+
 
   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
   const HomeScreen({
     required this.number1,
     required this.number2,
     required this.total,
+    required this.scale,
     
     Key? key,
   }) : super(key: key);
@@ -29,12 +32,21 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           // 주사위 이미지 2개를 가로로 배치
           children: [
-            Image.asset(
-              'assets/img/1_$number1.png'
+            // 애니메이션 위젯
+            AnimatedScale(
+              scale: scale,
+              duration: const Duration(milliseconds: 150),
+              child: Image.asset(
+                'assets/img/1_$number1.png'
+              ),
             ),
             SizedBox(width: 32.0),
-            Image.asset(
-              'assets/img/2_$number2.png'
+            AnimatedScale(
+              scale: scale,
+              duration: const Duration(milliseconds: 150),
+              child: Image.asset(
+                'assets/img/2_$number2.png'
+              ),
             ),
           ],
         ),

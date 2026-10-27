@@ -23,8 +23,9 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   double threshold = 2.7;   // 민감도 기본값 설정
   int number1 = 1;   // 주사위 숫자
   int number2 = 1;
-  int total = 2;
+  int total = 2;   // 주사위 숫자의 합계
   ShakeDetector? shakeDetector;   // 사용할 ShakeDetector 선언
+  double scale = 1.0;   // 확대 후 다시 원래 크기로 축소되는 애니메이션에 사용될 이미지 크기
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   }
 
   // 흔들림 감지 후 실행할 함수
-  void onPhoneShake(ShakeEvent event) {
+  void onPhoneShake(ShakeEvent event) async {
     final random = new Random();
 
     // 상태 변경 시 setState() 함수 실행
@@ -64,6 +65,14 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       number1 = random.nextInt(5) + 1;
       number2 = random.nextInt(5) + 1;
       total = number1 + number2;
+
+      scale = 1.3;   // 이미지 크기를 1.3배로 확대
+    });
+
+    await Future.delayed(const Duration(milliseconds: 150));   // 150밀리초(0.15초) 동안 확대 상태 유지
+
+    setState(() {
+      scale = 1.0;   // 이미지를 다시 원래 크기(1.0)로 축소
     });
   }
 
@@ -94,6 +103,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
         number1: number1,
         number2: number2,
         total: total,
+        scale: scale,
       ),
       // 설정 스크린 탭
       SettingsScreen(
