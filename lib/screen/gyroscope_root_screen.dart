@@ -6,26 +6,25 @@ import 'package:flutter/services.dart';
 import 'package:random_dice/screen/home_screen.dart';
 import 'package:random_dice/screen/settings_screen.dart';
 
-import 'package:shake/shake.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
-class RootScreen extends StatefulWidget {
-  const RootScreen({Key? key}) : super(key: key);   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
+class GyroscopeRootScreen extends StatefulWidget {
+  const GyroscopeRootScreen({Key? key}) : super(key: key);   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
 
   @override
-  // State<RootScreen> createState() => _RootScreenState();
-  State<RootScreen> createState() {
-    return _RootScreenState();
+  // State<GyroscopeRootScreen> createState() => _GyroscopeRootScreenState();
+  State<GyroscopeRootScreen> createState() {
+    return _GyroscopeRootScreenState();
   }
 }
 
 // TabController 초기화를 위한 vsync 기능을 사용하기 위해 TickerProviderStateMixin 사용
-class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
+class _GyroscopeRootScreenState extends State<GyroscopeRootScreen> with TickerProviderStateMixin {
   TabController? controller;   // 사용할 TabController 선언
-  double threshold = 2.7;   // 민감도 기본값 설정
+  double threshold = 5.0;   // 민감도 기본값 설정
   int number1 = 1;   // 주사위 숫자
   int number2 = 1;
   int total = 2;   // 주사위 숫자의 합계
-  ShakeDetector? shakeDetector;   // 사용할 ShakeDetector 선언
   double scale = 1.0;   // 확대 후 다시 원래 크기로 축소되는 애니메이션에 사용될 이미지 크기
 
   @override
@@ -39,12 +38,18 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     );
     controller!.addListener(tabListener);   // 컨트롤러 속성이 변경될 때마다 실행할 함수 등록
 
-    // 흔들림 감지 즉시 시작
-    shakeDetector = ShakeDetector.autoStart(
-      onPhoneShake: onPhoneShake,   // 감지 후 실행할 함수
-      shakeSlopTimeMS: 100,   // 감지 주기
-      shakeThresholdGravity: threshold,   // 감지 민감도
-    );
+    // accelerometerEventStream() : X, Y, Z축의 가속도 측정
+    // gyroscopeEventStream() : X, Y, Z축의 각속도 측정
+    // userAccelerometerEventStream() : X, Y, Z축의 중력이 제거된 가속도 측정
+    // magnetometerEventStream() : 주변 자기장 측정 (나침반 등 구현 시 사용)
+
+    // X, Y, Z축의 각속도 측정 이벤트 스트림
+    gyroscopeEventStream().listen((event) {
+      // 어느 한 축의 각속도가 민감도보다 크면 함수 실행
+      if (event.x > threshold || event.y > threshold || event.z > threshold) {
+        onPhoneRotation();
+      }
+    });
   }
 
   // 리스너로 사용할 함수
@@ -55,8 +60,8 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     setState(() {});
   }
 
-  // 흔들림 감지 후 실행할 함수
-  void onPhoneShake(ShakeEvent event) async {
+  // 각속도 감지 후 실행할 함수
+  void onPhoneRotation() async {
     final random = new Random();
 
     // HapticFeedback.lightImpact();   // 흔들기 시작할 때 가벼운 진동 효과 (준비 신호)
@@ -84,7 +89,6 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     controller!.removeListener(tabListener);   // 리스너에 등록한 함수 등록 취소
-    shakeDetector!.stopListening();   // 흔들림 감지 중지
 
     super.dispose();
   }

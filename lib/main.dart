@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:random_dice/const/colors.dart';
-import 'package:random_dice/screen/root_screen.dart';
+import 'package:random_dice/screen/gyroscope_root_screen.dart';
+import 'package:random_dice/screen/shake_root_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 화면 세로 고정
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -22,7 +32,8 @@ void main() {
           backgroundColor: backgroundColor,   // 배경색
         ),
       ),
-      home: RootScreen(),
+      // home: GyroscopeRootScreen(),   // Gyroscope
+      home: ShakeRootScreen(),   // Accelerometer
     ),
   );
 }
