@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:random_dice/screen/home_screen.dart';
 import 'package:random_dice/screen/settings_screen.dart';
@@ -58,6 +59,8 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   void onPhoneShake(ShakeEvent event) async {
     final random = new Random();
 
+    // HapticFeedback.lightImpact();   // 흔들기 시작할 때 가벼운 진동 효과 (준비 신호)
+
     // 상태 변경 시 setState() 함수 실행
     // 값 변경 시 build() 함수 재실행ß
     // Clean -> setState() -> Dirty -> build() -> Clean
@@ -70,6 +73,8 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     });
 
     await Future.delayed(const Duration(milliseconds: 150));   // 150밀리초(0.15초) 동안 확대 상태 유지
+    
+    HapticFeedback.heavyImpact();   // 주사위가 멈췄을 때 묵직한 진동 효과
 
     setState(() {
       scale = 1.0;   // 이미지를 다시 원래 크기(1.0)로 축소
