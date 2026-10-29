@@ -55,7 +55,7 @@ class _GyroscopeRootScreenState extends State<GyroscopeRootScreen> with TickerPr
   // 리스너로 사용할 함수
   tabListener() {
     // 상태 변경 시 setState() 함수 실행
-    // 값 변경 시 build() 함수 재실행ß
+    // 값 변경 시 build() 함수 재실행
     // Clean -> setState() -> Dirty -> build() -> Clean
     setState(() {});
   }
@@ -67,7 +67,7 @@ class _GyroscopeRootScreenState extends State<GyroscopeRootScreen> with TickerPr
     // HapticFeedback.lightImpact();   // 흔들기 시작할 때 가벼운 진동 효과 (준비 신호)
 
     // 상태 변경 시 setState() 함수 실행
-    // 값 변경 시 build() 함수 재실행ß
+    // 값 변경 시 build() 함수 재실행
     // Clean -> setState() -> Dirty -> build() -> Clean
     setState(() {
       number1 = random.nextInt(5) + 1;
